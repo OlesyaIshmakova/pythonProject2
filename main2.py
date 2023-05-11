@@ -1,7 +1,7 @@
 import csv
 import json
 from files import CSV_F_PATH, JSON_F_PATH
-# печатает все строки из файла работало
+# печатает все строки из файла
 books_list = []
 with open(CSV_F_PATH) as csv_file:
     books = csv.DictReader(csv_file)
@@ -23,7 +23,6 @@ with open(JSON_F_PATH) as json_file:
                          age=user["age"],
                          books=[])
     users_list.append(user_dict)
-
 count_users = len(users_list)
 num_books = len(books)
 print(count_users, 'кол-во пользователей')
@@ -37,9 +36,10 @@ for i, user in enumerate(users_list):
     for j in range(max_books):
         user['books'].append(books[book_index])
         book_index += 1
-if i < remaining_books:
-    user['books'].append(books[book_index])
-    book_index += 1
+        if i < remaining_books:
+            user['books'].append(books[book_index])
+            book_index += 1
+
 with open('result.json', 'w') as f:
     json.dump(users_list, f, indent=4)
     # s = json.dumps(data, f)
