@@ -1,35 +1,26 @@
 import csv
 import json
-
 from files import CSV_F_PATH, JSON_F_PATH
 
 users_list = []
-# перезаписть файла с нужными полями
 with open(JSON_F_PATH) as f:
     users = json.load(f)
-# Обработка и запись в новый список пользователей с атрибутами
-    for user in users:
+    for user in users["users"]:
         users_dict = {
-        "name": user["Name"],
-        "gender": user["Gender"],
-        "address": user["Address"],
-        "age": user["Age"],
-        "books": []
+            "name": user["name"],
+            "gender": user["gender"],
+            "address": user["address"],
+            "age": user["age"],
+            "books": []
         }
-    users_list.append(users_dict)
+        users_list.append(users_dict) #добавляет элемент x в конец списка.
 
-# Открытие файла с книгами books.json запись с атрибутами reference.json
 books_list = []
 with open(CSV_F_PATH) as f:
     books = csv.DictReader(f)
     for book in books:
-        books_dict = {
-            "title": book["Title"],
-            "author": book["Author"],
-            "pages": int(book["Pages"]),
-            "genre": book["Genre"]
-        }
-        books_list.append(books_dict)
+        books_dict = dict(title = book["Title"], author = book["Author"], pages = int(book["Pages"]), genre = book["Genre"])
+        books_list.append(books_dict)#добавляет элемент x в конец списка.
 
 total_users = len(users_list)
 total_books = len(books_list)
@@ -46,12 +37,12 @@ for user in users_list:
     for i in range(max_books):
         user['books'].append(books_list[book_index])
         book_index += 1
-        if 0 < remaining_books:
-            user['books'].append(books_list[book_index])
-            remaining_books -= 1
-            book_index += 1
-            print(book_index, max_books)
+    if remaining_books > 0:
+        user['books'].append(books_list[book_index])
+        remaining_books -= 1
+        book_index += 1
+        print(book_index, max_books)
 
-with open("result.json","w") as f:
+with open("result.json", "w") as s:
     result = json.dumps(users_list, indent=4)
-    f.write(s)
+    s.write(result)
