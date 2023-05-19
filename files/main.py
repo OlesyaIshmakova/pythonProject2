@@ -41,7 +41,7 @@ for user in users_list:
         user['books'].append(books_list[book_index])
         remaining_books -= 1
         book_index += 1
-    # print(book_index, max_books)
+    # print(book_index, max_books) убрала
 
 with open("result.json", "w") as s:
     result = json.dumps(users_list, indent=4)
